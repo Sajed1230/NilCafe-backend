@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-brown: #3E2723;
+            --medium-brown: #5D4037;
+            --light-brown: #BCAAA4;
+            --beige: #EFEBE9;
+            --cream: #FFF8E1;
+            --orange-brown: #D84315;
+            --white: #FFFFFF;
+            --text-dark: #3E2723;
+            --text-light: #8D6E63;
+        }
+
+        body {
+            font-family: 'Poppins', 'Arial', 'Helvetica', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--cream);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--medium-brown) 0%, var(--dark-brown) 100%);
+            color: var(--white);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+            color: var(--beige);
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .required {
+            color: var(--orange-brown);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--beige);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--orange-brown);
+            box-shadow: 0 0 0 3px rgba(216, 67, 21, 0.1);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--orange-brown), #FF6B35);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(216, 67, 21, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--orange-brown);
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            max-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: block;
+            border: 2px solid var(--beige);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button,
+        .btn {
+            flex: 1;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange-brown), #FF6B35);
+            color: var(--white);
+            box-shadow: 0 5px 15px rgba(216, 67, 21, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(216, 67, 21, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--beige);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-brown);
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: var(--light-brown);
+            color: var(--text-dark);
+        }
+
+        .btn-cancel:hover {
+            background: var(--medium-brown);
+            color: var(--white);
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--beige);
+        }
+
+        .nav-links a {
+            color: var(--orange-brown);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            color: var(--dark-brown);
+            transform: translateY(-2px);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--beige);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: var(--cream);
+        }
+
+        .upload-area:hover {
+            border-color: var(--orange-brown);
+            background: var(--beige);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--orange-brown);
+            background: rgba(216, 67, 21, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✏️ Edit Product</h1>
+            <p>Nile Cafe - Update Product Details</p>
+        </div>
+
+        <div class="form-container">
+            <% if (message) { %>
+                <div class="message success">
+                    ✅ <%= message %>
+                </div>
+            <% } %>
+
+            <% if (error) { %>
+                <div class="message error">
+                    ❌ <%= error %>
+                </div>
+            <% } %>
+
+            <% if (product) { %>
+            <form action="/products/edit/<%= product._id %>" method="POST" id="productForm" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="name">
+                        Product Name <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        placeholder="e.g., Cappuccino, Chocolate Cake"
+                        value="<%= product.name %>"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        placeholder="Enter product description (optional)"
+                    ><%= product.description || '' %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">
+                        Product Type <span class="required">*</span>
+                    </label>
+                    <select 
+                        id="category" 
+                        name="category" 
+                        required
+                        style="width: 100%; padding: 12px 15px; border: 2px solid var(--beige); border-radius: 10px; font-size: 16px; font-family: 'Poppins', sans-serif; background: var(--white); color: var(--text-dark); transition: all 0.3s ease;"
+                    >
+                        <option value="">-- Select Product Type --</option>
+                        <option value="Coffee" <%= product.category === 'Coffee' ? 'selected' : '' %>>☕ Coffee</option>
+                        <option value="Tea" <%= product.category === 'Tea' ? 'selected' : '' %>>🍵 Tea</option>
+                        <option value="Juices" <%= product.category === 'Juices' ? 'selected' : '' %>>🥤 Juices</option>
+                        <option value="Snacks" <%= product.category === 'Snacks' ? 'selected' : '' %>>🍿 Snacks</option>
+                        <option value="Desserts" <%= product.category === 'Desserts' ? 'selected' : '' %>>🍰 Desserts</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">
+                        Price <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="price" 
+                        name="price" 
+                        placeholder="0.00"
+                        step="0.01"
+                        min="0"
+                        value="<%= product.price %>"
+                        required
+                    >
+                    <div class="help-text">Enter price in your currency (e.g., 5.99)</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Product Image</label>
+                    <% if (product.image) { %>
+                        <div class="image-preview" id="currentImage">
+                            <img src="<%= product.image %>" alt="Current product image">
+                        </div>
+                        <div class="help-text" style="margin-top: 10px;">Current image (upload new image to replace)</div>
+                    <% } %>
+                    <div class="upload-area" id="uploadArea" style="margin-top: 15px;">
+                        <input 
+                            type="file" 
+                            id="image" 
+                            name="image" 
+                            accept="image/*"
+                            style="display: none;"
+                        >
+                        <div style="margin-bottom: 10px;">
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('image').click()" style="display: inline-block; flex: none; padding: 10px 20px;">
+                                📷 Change Image
+                            </button>
+                        </div>
+                        <div class="help-text" id="fileInfo">No new file selected. Click to upload a new image</div>
+                    </div>
+                    <div class="image-preview" id="imagePreview" style="display: none;">
+                        <img id="previewImg" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input 
+                            type="checkbox" 
+                            id="isAvailable" 
+                            name="isAvailable" 
+                            value="true"
+                            <%= product.isAvailable ? 'checked' : '' %>
+                        >
+                        <label for="isAvailable" style="margin: 0; font-weight: normal;">
+                            Product is available
+                        </label>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">
+                        💾 Update Product
+                    </button>
+                    <a href="/products/list" class="btn btn-cancel" style="text-align: center;">
+                        ❌ Cancel
+                    </a>
+                </div>
+            </form>
+            <% } else { %>
+                <div class="message error">
+                    Product not found. <a href="/products/list">Go back to list</a>
+                </div>
+            <% } %>
+
+            <div class="nav-links">
+                <a href="/products/list">📋 View All Products</a>
+                <a href="/products/add">➕ Add New Product</a>
+                <a href="/">🏠 Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation before submit
+        function validateForm() {
+            const name = document.getElementById('name').value.trim();
+            const price = document.getElementById('price').value.trim();
+            const category = document.getElementById('category').value.trim();
+
+            if (!name) {
+                alert('Please enter a product name');
+                document.getElementById('name').focus();
+                return false;
+            }
+
+            if (!price || parseFloat(price) <= 0) {
+                alert('Please enter a valid price');
+                document.getElementById('price').focus();
+                return false;
+            }
+
+            if (!category) {
+                alert('Please select a product type (Coffee, Tea, Juices, Snacks, or Desserts)');
+                document.getElementById('category').focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const fileInfo = document.getElementById('fileInfo');
+        const uploadArea = document.getElementById('uploadArea');
+        const currentImage = document.getElementById('currentImage');
+
+        // File input change handler
+        if (imageInput) {
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        if (currentImage) {
+                            currentImage.style.display = 'none';
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    fileInfo.textContent = 'No new file selected. Click to upload a new image';
+                    imagePreview.style.display = 'none';
+                    if (currentImage) {
+                        currentImage.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        // Drag and drop functionality
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    imageInput.files = e.dataTransfer.files;
+                    const event = new Event('change', { bubbles: true });
+                    imageInput.dispatchEvent(event);
+                } else {
+                    alert('Please drop an image file');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+

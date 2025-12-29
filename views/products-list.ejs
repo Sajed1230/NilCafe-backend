@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-brown: #3E2723;
+            --medium-brown: #5D4037;
+            --light-brown: #BCAAA4;
+            --beige: #EFEBE9;
+            --cream: #FFF8E1;
+            --orange-brown: #D84315;
+            --white: #FFFFFF;
+            --text-dark: #3E2723;
+            --text-light: #8D6E63;
+        }
+
+        body {
+            font-family: 'Poppins', 'Arial', 'Helvetica', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--cream);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--medium-brown) 0%, var(--dark-brown) 100%);
+            color: var(--white);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+            color: var(--beige);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .nav-links {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 0 10px;
+            background: linear-gradient(135deg, var(--orange-brown), #FF6B35);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 15px rgba(216, 67, 21, 0.4);
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(216, 67, 21, 0.5);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange-brown), #FF6B35);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--light-brown) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 3em;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 10px;
+        }
+
+        .product-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, rgba(216, 67, 21, 0.1), rgba(255, 107, 53, 0.1));
+            color: var(--orange-brown);
+        }
+
+        .product-description {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--orange-brown);
+            margin-bottom: 10px;
+        }
+
+        .product-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-unavailable {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: var(--dark-brown);
+            font-weight: 700;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--beige);
+            border-radius: 15px;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-brown);
+            margin-bottom: 15px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--light-brown);
+            border-radius: 25px;
+            background: var(--white);
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--orange-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(216, 67, 21, 0.2);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--orange-brown), #FF6B35);
+            color: var(--white);
+            border-color: var(--orange-brown);
+            box-shadow: 0 5px 15px rgba(216, 67, 21, 0.3);
+        }
+
+        .filter-count {
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-left: 5px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--beige);
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--medium-brown), var(--dark-brown));
+            color: var(--white);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(62, 39, 35, 0.3);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: var(--white);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--dark-brown);
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--light-brown) 100%);
+        }
+
+        .product-image img.product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            animation: fadeInImage 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeInImage {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .product-card:hover .product-image img.product-img {
+            transform: scale(1.05);
+        }
+
+        .no-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--light-brown) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 All Products</h1>
+            <p>Nile Cafe - Product Catalog</p>
+        </div>
+
+        <div class="content">
+            <div class="nav-links">
+                <a href="/products/add">➕ Add New Product</a>
+                <a href="/">🏠 Back to Home</a>
+            </div>
+
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message">
+                    ❌ <%= error %>
+                </div>
+            <% } %>
+
+            <% if (typeof message !== 'undefined' && message) { %>
+                <div class="success-message">
+                    ✅ <%= message %>
+                </div>
+            <% } %>
+
+            <!-- Category Filter -->
+            <div class="filter-section">
+                <div class="filter-title">🔍 Filter by Category</div>
+                <div class="filter-buttons">
+                    <a href="/products/list?category=all" class="filter-btn <%= currentCategory === 'all' || !currentCategory ? 'active' : '' %>">
+                        All Products
+                        <% if (typeof totalProducts !== 'undefined') { %>
+                            <span class="filter-count">(<%= totalProducts %>)</span>
+                        <% } %>
+                    </a>
+                    <a href="/products/list?category=Coffee" class="filter-btn <%= currentCategory === 'Coffee' ? 'active' : '' %>">
+                        ☕ Coffee
+                        <% if (categoryCounts && categoryCounts.find(c => c._id === 'Coffee')) { %>
+                            <span class="filter-count">(<%= categoryCounts.find(c => c._id === 'Coffee').count %>)</span>
+                        <% } %>
+                    </a>
+                    <a href="/products/list?category=Tea" class="filter-btn <%= currentCategory === 'Tea' ? 'active' : '' %>">
+                        🍵 Tea
+                        <% if (categoryCounts && categoryCounts.find(c => c._id === 'Tea')) { %>
+                            <span class="filter-count">(<%= categoryCounts.find(c => c._id === 'Tea').count %>)</span>
+                        <% } %>
+                    </a>
+                    <a href="/products/list?category=Juices" class="filter-btn <%= currentCategory === 'Juices' ? 'active' : '' %>">
+                        🥤 Juices
+                        <% if (categoryCounts && categoryCounts.find(c => c._id === 'Juices')) { %>
+                            <span class="filter-count">(<%= categoryCounts.find(c => c._id === 'Juices').count %>)</span>
+                        <% } %>
+                    </a>
+                    <a href="/products/list?category=Snacks" class="filter-btn <%= currentCategory === 'Snacks' ? 'active' : '' %>">
+                        🍿 Snacks
+                        <% if (categoryCounts && categoryCounts.find(c => c._id === 'Snacks')) { %>
+                            <span class="filter-count">(<%= categoryCounts.find(c => c._id === 'Snacks').count %>)</span>
+                        <% } %>
+                    </a>
+                    <a href="/products/list?category=Desserts" class="filter-btn <%= currentCategory === 'Desserts' ? 'active' : '' %>">
+                        🍰 Desserts
+                        <% if (categoryCounts && categoryCounts.find(c => c._id === 'Desserts')) { %>
+                            <span class="filter-count">(<%= categoryCounts.find(c => c._id === 'Desserts').count %>)</span>
+                        <% } %>
+                    </a>
+                </div>
+            </div>
+
+            <% if (products && products.length > 0) { %>
+                <div class="products-grid">
+                    <% products.forEach(product => { %>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <% if (product.image && product.image.length > 0) { %>
+                                    <img 
+                                        src="<%= product.image %>" 
+                                        alt="<%= product.name %>"
+                                        loading="lazy"
+                                        class="product-img"
+                                        onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<div class=\'no-image-placeholder\'>🍽️</div>'"
+                                    >
+                                <% } else { %>
+                                    <div class="no-image-placeholder">🍽️</div>
+                                <% } %>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name"><%= product.name %></div>
+                                <% if (product.category) { %>
+                                    <div class="product-category"><%= product.category %></div>
+                                <% } %>
+                                <div class="product-description">
+                                    <%= product.description || 'No description available' %>
+                                </div>
+                                <div class="product-price">$<%= product.price.toFixed(2) %></div>
+                                <div>
+                                    <span class="product-status <%= product.isAvailable ? 'status-available' : 'status-unavailable' %>">
+                                        <%= product.isAvailable ? '✓ Available' : '✗ Unavailable' %>
+                                    </span>
+                                </div>
+                                <div class="product-actions">
+                                    <a href="/products/edit/<%= product._id %>" class="btn-action btn-edit">
+                                        ✏️ Edit
+                                    </a>
+                                    <button onclick="confirmDelete('<%= product._id %>', '<%= product.name %>')" class="btn-action btn-delete">
+                                        🗑️ Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <h2>📦 No Products Found</h2>
+                    <% if (currentCategory && currentCategory !== 'all') { %>
+                        <p>No products found in the "<%= currentCategory %>" category.</p>
+                        <div style="margin-top: 20px;">
+                            <a href="/products/list" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--orange-brown), #FF6B35); color: var(--white); text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 5px 15px rgba(216, 67, 21, 0.4); margin-right: 10px;">
+                                View All Products
+                            </a>
+                            <a href="/products/add" style="display: inline-block; padding: 12px 25px; background: var(--medium-brown); color: var(--white); text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 5px 15px rgba(62, 39, 35, 0.3);">
+                                ➕ Add New Product
+                            </a>
+                        </div>
+                    <% } else { %>
+                        <p>Get started by adding your first product!</p>
+                        <div style="margin-top: 20px;">
+                            <a href="/products/add" style="display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, var(--orange-brown), #FF6B35); color: var(--white); text-decoration: none; border-radius: 30px; font-weight: 600; box-shadow: 0 5px 15px rgba(216, 67, 21, 0.4);">
+                                ➕ Add Your First Product
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content">
+            <h3>Confirm Delete</h3>
+            <p>Are you sure you want to delete "<span id="productNameToDelete"></span>"? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <form method="POST" action="" id="deleteForm" style="display: flex; gap: 10px; width: 100%;">
+                    <button type="button" onclick="closeDeleteModal()" style="flex: 1; padding: 12px 20px; border: none; border-radius: 8px; background: var(--beige); color: var(--text-dark); font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif;">
+                        Cancel
+                    </button>
+                    <button type="submit" style="flex: 1; padding: 12px 20px; border: none; border-radius: 8px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: var(--white); font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif;">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(productId, productName) {
+            const modal = document.getElementById('deleteModal');
+            const form = document.getElementById('deleteForm');
+            const nameSpan = document.getElementById('productNameToDelete');
+            
+            nameSpan.textContent = productName;
+            form.action = '/products/delete/' + productId;
+            modal.classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('deleteModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+
+        // Auto-hide success message after 5 seconds
+        const successMsg = document.querySelector('.success-message');
+        if (successMsg) {
+            setTimeout(() => {
+                successMsg.style.opacity = '0';
+                setTimeout(() => successMsg.remove(), 300);
+            }, 5000);
+        }
+
+        // Images will load lazily using native browser lazy loading
+        // Additional optimization: fade in images as they load
+        const productImages = document.querySelectorAll('.product-img');
+        productImages.forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+</body>
+</html>

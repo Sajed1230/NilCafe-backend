@@ -1,0 +1,30 @@
+{
+  "name": "nilecafe-backend",
+  "version": "1.0.0",
+  "description": "Backend API for NileCafe",
+  "main": "server.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.10",
+    "express": "^4.18.2",
+    "mongoose": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.2",
+    "pdfkit": "^0.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
