@@ -2,26 +2,31 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load .env file from the backend directory
+// Load .env file from the backend directory (only in development)
+// In production (Render.com), environment variables are set directly
 const envResult = dotenv.config({ path: path.join(__dirname, '.env') });
 
-// Debug: Check if .env file was loaded
+// Debug: Check if .env file was loaded (only warn, don't fail - production uses env vars directly)
 if (envResult.error) {
-  console.warn('⚠️  Warning: Error loading .env file:', envResult.error.message);
-} else {
+  // Only warn if we're in development and the file is missing
+  // In production (Render), env vars are set directly, so .env file isn't needed
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('⚠️  Warning: Error loading .env file:', envResult.error.message);
+    console.warn('💡 This is normal in production environments like Render.com');
+  }
+} else if (!envResult.error) {
   console.log('✅ .env file loaded successfully');
 }
 
-// Debug: Verify MONGODB_URI is loaded (don't log the actual URI for security)
+// Verify MONGODB_URI is available (either from .env file or environment variables)
 if (!process.env.MONGODB_URI) {
-  console.error('❌ MONGODB_URI is not defined after loading .env file');
-  console.error('📁 Current directory:', __dirname);
-  console.error('📄 Looking for .env file at:', path.join(__dirname, '.env'));
-  console.error('🔍 Environment variables loaded:', Object.keys(process.env).filter(k => k.includes('MONGO')).join(', ') || 'NONE');
+  console.error('❌ MONGODB_URI is not defined');
+  console.error('📝 Please set MONGODB_URI as an environment variable:');
+  console.error('   - In development: Create a .env file with MONGODB_URI=your_connection_string');
+  console.error('   - In production (Render): Set MONGODB_URI in your Render dashboard under Environment Variables');
   process.exit(1);
 } else {
   console.log('✅ MONGODB_URI is defined');
-  console.log('📊 MONGODB_URI length:', process.env.MONGODB_URI.length, 'characters');
 }
 
 const express = require('express');
