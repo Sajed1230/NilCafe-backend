@@ -51,15 +51,35 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Security: CORS configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',')
-  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000']; // Default development origins
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
+  : [
+      'http://localhost:5173', 
+      'http://localhost:5174', 
+      'http://localhost:3000',
+      'https://nilcafe-frontend.onrender.com' // Production frontend
+    ]; // Default development origins
+
+// Log allowed origins for debugging
+console.log('🌐 Allowed CORS origins:', allowedOrigins);
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, curl, etc.)
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (mobile apps, curl, Postman, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(`⚠️  CORS blocked origin: ${origin}`);
+      console.warn(`📋 Allowed origins: ${allowedOrigins.join(', ')}`);
+      // In production, be more permissive for Render deployments
+      if (process.env.NODE_ENV === 'production' && origin.includes('onrender.com')) {
+        console.log(`✅ Allowing Render.com origin: ${origin}`);
+        return callback(null, true);
+      }
       callback(new Error('Not allowed by CORS'));
     }
   },
