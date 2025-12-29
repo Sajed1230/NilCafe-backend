@@ -17,8 +17,11 @@ if (!process.env.MONGODB_URI) {
   console.error('❌ MONGODB_URI is not defined after loading .env file');
   console.error('📁 Current directory:', __dirname);
   console.error('📄 Looking for .env file at:', path.join(__dirname, '.env'));
+  console.error('🔍 Environment variables loaded:', Object.keys(process.env).filter(k => k.includes('MONGO')).join(', ') || 'NONE');
+  process.exit(1);
 } else {
   console.log('✅ MONGODB_URI is defined');
+  console.log('📊 MONGODB_URI length:', process.env.MONGODB_URI.length, 'characters');
 }
 
 const express = require('express');

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon app.js"
   },
   "keywords": [
     "express",
