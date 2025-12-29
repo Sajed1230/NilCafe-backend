@@ -1,7 +1,28 @@
-const express = require('express');
-const cors = require('cors');
+// Load environment variables FIRST, before any other imports
 const dotenv = require('dotenv');
 const path = require('path');
+
+// Load .env file from the backend directory
+const envResult = dotenv.config({ path: path.join(__dirname, '.env') });
+
+// Debug: Check if .env file was loaded
+if (envResult.error) {
+  console.warn('⚠️  Warning: Error loading .env file:', envResult.error.message);
+} else {
+  console.log('✅ .env file loaded successfully');
+}
+
+// Debug: Verify MONGODB_URI is loaded (don't log the actual URI for security)
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI is not defined after loading .env file');
+  console.error('📁 Current directory:', __dirname);
+  console.error('📄 Looking for .env file at:', path.join(__dirname, '.env'));
+} else {
+  console.log('✅ MONGODB_URI is defined');
+}
+
+const express = require('express');
+const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -12,8 +33,6 @@ const receiptRoutes = require('./routes/receipts');
 // Security middleware
 const { sanitizeBody, sanitizeQueryParams } = require('./middleware/validation');
 const { apiRateLimiter, authRateLimiter } = require('./middleware/rateLimiter');
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
